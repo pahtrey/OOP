@@ -1,0 +1,2 @@
+Invalid parameter value
+<number of bits> parameter should be within [2, 8], but found: 99

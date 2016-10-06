@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main(int argc, char  * argv[])
+int main(int argc, char * argv[])
 {
 	if (argc != 3)
 	{
@@ -30,12 +30,12 @@ int main(int argc, char  * argv[])
 
 	string lineFirstFile, lineSecondFile;
 	int lineNumber = 1;
-	bool isSameFiles = false;
-
-	if (inputFirstFile.peek() == -1 && inputSecondFile.peek() == -1)
+	bool isSameFiles = true;
+	
+	/*if (inputFirstFile.peek() == -1 && inputSecondFile.peek() == -1)
 	{
 		isSameFiles = true;
-	}
+	}*/
 
 	while (getline(inputFirstFile, lineFirstFile) && getline(inputSecondFile, lineSecondFile))
 	{
@@ -49,6 +49,11 @@ int main(int argc, char  * argv[])
 			break;
 		}
 		lineNumber++;
+	}
+
+	if (inputFirstFile || inputSecondFile)
+	{
+		isSameFiles = false;
 	}
 
 	if (isSameFiles)

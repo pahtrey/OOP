@@ -1,0 +1,2 @@
+Invalid parameter type
+<byte> parameter must be numerical, but found: N

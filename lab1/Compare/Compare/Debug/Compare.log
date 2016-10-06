@@ -1,19 +1,7 @@
-﻿  stdafx.cpp
-  Compare.cpp
+﻿  Compare.cpp
   Compare.vcxproj -> D:\IPS\OOP\lab1\Compare\Debug\Compare.exe
   Compare.vcxproj -> D:\IPS\OOP\lab1\Compare\Debug\Compare.pdb (Full PDB)
-  Files are equal
-  Сравнение файлов empty1.txt и EMPTY2.TXT
-  FC: различия не найдены
-  
-  Files are equal
-  Сравнение файлов file1.txt и FILE2.TXT
-  FC: различия не найдены
-  
-  Сравнение файлов C:\USERS\7636~1\APPDATA\LOCAL\TEMP\output.txt и EXPECTED-OUTPUT-WHEN-INPUT-FILE-IS-MISSING.TXT
-  FC: различия не найдены
-  
-  Сравнение файлов C:\USERS\7636~1\APPDATA\LOCAL\TEMP\output.txt и DIFFERENT-FILES-IN-LINE-3.TXT
-  FC: различия не найдены
-  
-  Program testing succeeded
+  Files are different. Line number is 1
+  Program testing failed
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: The command "test.bat "D:\IPS\OOP\lab1\Compare\Debug\Compare.exe"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: :VCEnd" exited with code 1.
