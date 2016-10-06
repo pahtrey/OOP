@@ -27,6 +27,16 @@ if ERRORLEVEL 1 goto err
 fc.exe %TEMP%\output.txt expected-output-when-parameters-are-17-2-r.txt
 if ERRORLEVEL 1 goto err
 
+%PROGRAM% 17 0 R > %TEMP%\output.txt
+if ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt expected-output-when-parameters-are-17-0-r.txt
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 17 8 R > %TEMP%\output.txt
+if ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt expected-output-when-parameters-are-17-8-r.txt
+if ERRORLEVEL 1 goto err
+
 echo Program testing succeeded
 exit 0
 
