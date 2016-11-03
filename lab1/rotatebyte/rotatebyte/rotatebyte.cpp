@@ -4,7 +4,28 @@
 
 using namespace std;
 
-void rotation(int number, int numberOfBits, string rotationDirection);
+enum class RotationDirection
+{
+	LEFT,
+	RIGHT
+};
+
+RotationDirection GetRotationDirection(const string directionString)
+{
+	RotationDirection rotationDirection;
+	if (directionString == "L")
+	{
+		rotationDirection = RotationDirection::LEFT;
+	}
+	else if (directionString == "R")
+	{
+		rotationDirection = RotationDirection::RIGHT;
+	}
+
+	return rotationDirection;
+}
+
+int Rotate(uint8_t number, unsigned int numberOfBits, RotationDirection rotationDirection);
 
 int main(int argc, char * argv[])
 {
@@ -15,9 +36,9 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	int number = atoi(argv[1]);
-	int numberOfBits = atoi(argv[2]);
-	string rotationDirection = argv[3];
+	uint8_t number = atoi(argv[1]);
+	unsigned int numberOfBits = atoi(argv[2]);
+	string directionString = argv[3];
 	
 	if (number == 0) {
 		cout << "Invalid parameter type" << endl
@@ -32,31 +53,36 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	if (rotationDirection != "L" && rotationDirection != "R")
+	if (directionString != "L" && directionString != "R")
 	{
 		cout << "Invalid parameter value" << endl
 			<< "<L / R> parameter should be L or R, but found: " << argv[3] << endl;
 		return 1;
 	}
-	
-	rotation(number, numberOfBits, rotationDirection);
+
+	RotationDirection rotationDirection = GetRotationDirection(directionString);
+
+	int rotatedNumber;
+
+	rotatedNumber = Rotate(number, numberOfBits, rotationDirection);
+
+	cout << rotatedNumber << endl;
 
 	return 0;
 }
 
-void rotation(int number, int numberOfBits, string rotationDirection)
+int Rotate(uint8_t number, unsigned int numberOfBits, RotationDirection rotationDirection)
 {
-	const int BYTE_SIZE = 8;
+	const unsigned int BYTE_SIZE = 8;
 	
-	if (rotationDirection == "L")
+	if (rotationDirection == RotationDirection::LEFT)
 	{
-		number = (number >> numberOfBits) | (number << BYTE_SIZE - numberOfBits);
-		cout << number << endl;
+		number = (number << numberOfBits) | (number >> (BYTE_SIZE - numberOfBits));
+	}
+	else if (rotationDirection == RotationDirection::RIGHT)
+	{
+		number = (number >> numberOfBits) | (number << (BYTE_SIZE - numberOfBits));
 	}
 
-	if (rotationDirection == "R")
-	{
-		number = (number << numberOfBits) | (number >> BYTE_SIZE - numberOfBits);
-		cout << number << endl;
-	}
+	return number;
 }
