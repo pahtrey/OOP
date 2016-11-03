@@ -14,7 +14,7 @@ if ERRORLEVEL 1 goto err
 
 %PROGRAM% 17 99 R > %TEMP%\output.txt
 if NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt expected-output-when-number-of-bits-outside-between-2-and-8.txt
+fc.exe %TEMP%\output.txt expected-output-when-number-of-bits-outside-between-0-and-8.txt
 if ERRORLEVEL 1 goto err
 
 %PROGRAM% 17 2 P > %TEMP%\output.txt

@@ -46,10 +46,10 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	if (numberOfBits < 0 || numberOfBits > 8)
+	if (numberOfBits > 8)
 	{
 		cout << "Invalid parameter value" << endl
-			<< "<number of bits> parameter should be within [2, 8], but found: " << argv[2] << endl;
+			<< "<number of bits> parameter should be within [0, 8], but found: " << argv[2] << endl;
 		return 1;
 	}
 
@@ -73,15 +73,15 @@ int main(int argc, char * argv[])
 
 int Rotate(uint8_t number, unsigned int numberOfBits, RotationDirection rotationDirection)
 {
-	const unsigned int BYTE_SIZE = 8;
+	const unsigned int BITS_IN_BYTE = 8;
 	
 	if (rotationDirection == RotationDirection::LEFT)
 	{
-		number = (number << numberOfBits) | (number >> (BYTE_SIZE - numberOfBits));
+		number = (number << numberOfBits) | (number >> (BITS_IN_BYTE - numberOfBits));
 	}
 	else if (rotationDirection == RotationDirection::RIGHT)
 	{
-		number = (number >> numberOfBits) | (number << (BYTE_SIZE - numberOfBits));
+		number = (number >> numberOfBits) | (number << (BITS_IN_BYTE - numberOfBits));
 	}
 
 	return number;
