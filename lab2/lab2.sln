@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vector", "Vector\Vector.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VectorTests", "VectorTests\VectorTests.vcxproj", "{4420E17A-D095-479A-9B3B-8867139D6645}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindAndReplace", "FindAndReplace\FindAndReplace.vcxproj", "{1C2AB63C-2366-4FF5-829A-DCA44D907205}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindAndReplaceTests", "FindAndReplaceTests\FindAndReplaceTests.vcxproj", "{E8B520FE-EE60-44FF-BC40-431A8B9497A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +35,22 @@ Global
 		{4420E17A-D095-479A-9B3B-8867139D6645}.Release|Win32.Build.0 = Release|Win32
 		{4420E17A-D095-479A-9B3B-8867139D6645}.Release|x64.ActiveCfg = Release|x64
 		{4420E17A-D095-479A-9B3B-8867139D6645}.Release|x64.Build.0 = Release|x64
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Debug|Win32.Build.0 = Debug|Win32
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Debug|x64.ActiveCfg = Debug|x64
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Debug|x64.Build.0 = Debug|x64
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Release|Win32.ActiveCfg = Release|Win32
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Release|Win32.Build.0 = Release|Win32
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Release|x64.ActiveCfg = Release|x64
+		{1C2AB63C-2366-4FF5-829A-DCA44D907205}.Release|x64.Build.0 = Release|x64
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Debug|Win32.Build.0 = Debug|Win32
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Debug|x64.ActiveCfg = Debug|x64
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Debug|x64.Build.0 = Debug|x64
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Release|Win32.ActiveCfg = Release|Win32
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Release|Win32.Build.0 = Release|Win32
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Release|x64.ActiveCfg = Release|x64
+		{E8B520FE-EE60-44FF-BC40-431A8B9497A9}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
