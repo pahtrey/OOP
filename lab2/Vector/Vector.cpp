@@ -27,7 +27,7 @@ void PrintNumbersToStream(const vector<double> numbers, ostream & stream)
 
 void ProcessVector(vector<double> & numbers)
 {
-	if(numbers.empty())
+	if (numbers.empty())
 	{
 		return;
 	}
