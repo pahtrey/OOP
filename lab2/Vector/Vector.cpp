@@ -12,14 +12,14 @@ vector<double> ReadNumbersFromStream(istream & stream)
 	return numbers;
 }
 
-vector<double> SortNumbers(vector<double> numbers)
+vector<double> SortNumbers(vector<double> & numbers)
 {
 	sort(numbers.begin(), numbers.end());
 
 	return numbers;
 }
 
-void PrintNumbersToStream(const vector<double> numbers, ostream & stream)
+void PrintNumbersToStream(vector<double> const & numbers, ostream & stream)
 {
 	copy(numbers.begin(), numbers.end(), ostream_iterator<double>(stream, " "));
 	stream << endl;
