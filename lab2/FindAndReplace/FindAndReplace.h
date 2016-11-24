@@ -3,4 +3,6 @@
 
 using namespace std;
 
-string FindAndReplace(string const& subject, string const& search, string const& replace);
+string FindAndReplace(string const & subject, string const & search, string const & replace);
+
+string ReadWordFromStream(istream & stream);

@@ -3,18 +3,23 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
-	if (argc != 4)
-	{
-		cout << "Invalid arguments count" << endl
-			<< "Usage: findandreplace.exe <subject-string> <search-string> <replace-string>" << endl;
-		return 1;
-	}
+	string subject;
+	string search;
+	string replace;
 
-	string subject = argv[1];
-	string search = argv[2];
-	string replace = argv[3];
+	cout << "Input subject: ";
+	getline(cin, subject);
+	cout << endl;
+
+	cout << "Input search: ";
+	getline(cin, search);
+	cout << endl;
+
+	cout << "Input replace: ";
+	getline(cin, replace);
+	cout << endl;
 
 	cout << FindAndReplace(subject, search, replace) << endl;
 

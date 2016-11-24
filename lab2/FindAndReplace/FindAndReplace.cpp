@@ -28,3 +28,15 @@ string FindAndReplace(string const & subject, string const & search, string cons
 
 	return resultString;
 }
+
+string ReadWordFromStream(istream & stream)
+{
+	string word;
+
+	while (!stream.eof())
+	{
+		stream >> word;
+	}
+
+	return word;
+}
