@@ -12,4 +12,6 @@ int main()
 	vector<double> numbersSorted = SortNumbers(numbers);
 
 	PrintNumbersToStream(numbersSorted, cout);
+
+	return 0;
 }
