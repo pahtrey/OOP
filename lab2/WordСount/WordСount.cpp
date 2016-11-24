@@ -3,29 +3,24 @@
 
 using namespace std;
 
-WordMap ReadMapFromStream(istream & stream)
+WordMap WordCount(istream & stream)
 {
-	WordMap mapping;
+	WordMap words;
 	string word;
 
 	while (stream >> word)
 	{
-		mapping[word];
+		transform(word.begin(), word.end(), word.begin(), ::tolower);
+		++words[word];
 	}
 
-	return mapping;
+	return words;
 }
 
-WordMap WordCount(WordMap mapping)
+void PrintMapToStream(ostream & stream, WordMap & words)
 {
-	WordMap mapping;
-	return mapping;
-}
-
-void PrintMapToStream(ostream & stream, WordMap & mapping)
-{
-	for (auto word : mapping)
+	for (auto word = words.begin(); word != words.end(); ++word)
 	{
-		stream << word.first << word.second << endl;
+		stream << word->first << "->" << word->second << endl;
 	}
 }

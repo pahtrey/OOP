@@ -9,9 +9,18 @@ using namespace std;
 
 BOOST_AUTO_TEST_SUITE(WordCount_function)
 
-	BOOST_AUTO_TEST_CASE(can_start_first_empty_test)
+	BOOST_AUTO_TEST_CASE(does_not_consider_word_count_then_input_string_is_empty)
 	{
-		BOOST_CHECK(true);
+		WordMap result = {};
+		istringstream testString("");
+		BOOST_CHECK(result == WordCount(testString));
+	}
+
+	BOOST_AUTO_TEST_CASE(count_the_number_words_in_input_string)
+	{
+		WordMap result = { {"name" , 1}, {"is", 2}, { "korsakov", 1 }, {"my", 2}, {"pavel", 1}, {"surname", 1} };
+		istringstream testString("my name is Pavel\n My surname IS Korsakov");
+		BOOST_CHECK(result == WordCount(testString));
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

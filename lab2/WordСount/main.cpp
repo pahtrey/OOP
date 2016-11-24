@@ -5,8 +5,9 @@ using namespace std;
 
 int main()
 {
-	WordMap mapping = ReadMapFromStream(cin);
-	PrintMapToStream(cout, mapping);
-	system("pause");
+	WordMap words = WordCount(cin);
+
+	PrintMapToStream(cout, words);
+
 	return 0;
 }
