@@ -5,3 +5,34 @@
 #include "TVSet.h"
 
 using namespace std;
+
+CTVSet::CTVSet()
+{
+}
+
+CTVSet::~CTVSet()
+{
+}
+
+void CTVSet::TurnOn()
+{
+}
+
+void CTVSet::TurnOff()
+{
+}
+
+bool CTVSet::IsTurnedOn()const
+{
+	return m_isTurnedOn;
+}
+
+bool CTVSet::SelectChannel(int channelNumber)
+{
+	return false;
+}
+
+int CTVSet::GetSelectedChannelNumber()const
+{
+	return 1;
+}

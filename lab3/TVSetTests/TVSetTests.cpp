@@ -5,9 +5,16 @@
 
 #include "../TVSet/TVSet.h"
 
-BOOST_AUTO_TEST_SUITE(TVSet)
-	BOOST_AUTO_TEST_CASE(can_start_first_empty_test)
+struct TVSetFixture
+{
+	CTVSet tvSet;
+};
+
+BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
+
+	BOOST_AUTO_TEST_CASE(is_turned_off_by_default)
 	{
-		BOOST_CHECK(true);
+		BOOST_CHECK(!tvSet.IsTurnedOn());
 	}
+
 BOOST_AUTO_TEST_SUITE_END()
