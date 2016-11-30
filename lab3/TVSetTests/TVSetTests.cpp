@@ -17,4 +17,8 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 		BOOST_CHECK(!tvSet.IsTurnedOn());
 	}
 
+	BOOST_AUTO_TEST_CASE(has_zero_channel_number_then_turned_off)
+	{
+		BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 0);
+	}
 BOOST_AUTO_TEST_SUITE_END()
