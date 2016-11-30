@@ -10,9 +10,9 @@ struct TVSetFixture
 	CTVSet tvSet;
 };
 
-struct WhenTurnedOnFixture : TVSetFixture
+struct TVSetTurnedOnFixture : TVSetFixture
 {
-	WhenTurnedOnFixture()
+	TVSetTurnedOnFixture()
 	{
 		tvSet.TurnOn();
 	}
@@ -25,24 +25,28 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 		BOOST_CHECK(!tvSet.IsTurnedOn());
 	}
 
-	BOOST_AUTO_TEST_CASE(has_zero_channel_number_then_turned_off)
-	{
-		BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 0);
-	}
+	BOOST_FIXTURE_TEST_SUITE(when_turned_off, TVSetFixture)
 
-	BOOST_AUTO_TEST_CASE(can_not_switch_channel_then_turned_off)
-	{
-		bool isSuccessfulOperation = tvSet.SelectChannel(7);
-		BOOST_CHECK(!isSuccessfulOperation);
-	}
-	
-	BOOST_AUTO_TEST_CASE(can_be_turned_on)
-	{
-		tvSet.TurnOn();
-		BOOST_CHECK(tvSet.IsTurnedOn());
-	}
+		BOOST_AUTO_TEST_CASE(has_zero_channel_number)
+		{
+			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 0);
+		}
 
-	BOOST_FIXTURE_TEST_SUITE(when_turned_on, WhenTurnedOnFixture)
+		BOOST_AUTO_TEST_CASE(can_not_switch_channel)
+		{
+			bool isSuccessfulOperation = tvSet.SelectChannel(7);
+			BOOST_CHECK(!isSuccessfulOperation);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_be_turned_on)
+		{
+			tvSet.TurnOn();
+			BOOST_CHECK(tvSet.IsTurnedOn());
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_FIXTURE_TEST_SUITE(when_turned_on, TVSetTurnedOnFixture)
 
 		BOOST_AUTO_TEST_CASE(can_be_turned_off)
 		{
@@ -50,5 +54,13 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 			BOOST_CHECK(!tvSet.IsTurnedOn());
 		}
 
+		BOOST_AUTO_TEST_CASE(can_select_channel)
+		{
+			bool isSuccessfulOperation = tvSet.SelectChannel(7);
+			BOOST_CHECK(isSuccessfulOperation);
+			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 7);
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
