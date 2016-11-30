@@ -15,6 +15,11 @@ public:
 	int GetSelectedChannelNumber()const;
 
 private:
+	enum m_channelRange
+	{
+		min = 1,
+		max = 99
+	};
 	bool m_isTurnedOn = false;
-	int m_selectedChannelNumber = 1;
+	int m_selectedChannelNumber;
 };

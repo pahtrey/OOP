@@ -6,7 +6,7 @@
 
 using namespace std;
 
-CTVSet::CTVSet()
+CTVSet::CTVSet():m_selectedChannelNumber(m_channelRange::min)
 {
 }
 
@@ -32,6 +32,11 @@ bool CTVSet::IsTurnedOn()const
 bool CTVSet::SelectChannel(int channelNumber)
 {
 	if (!this->IsTurnedOn())
+	{
+		return false;
+	}
+
+	if (channelNumber < this->m_channelRange::min || channelNumber > this->m_channelRange::max)
 	{
 		return false;
 	}
