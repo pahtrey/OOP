@@ -20,6 +20,7 @@ void CTVSet::TurnOn()
 
 void CTVSet::TurnOff()
 {
+	this->m_isTurnedOn = false;
 }
 
 bool CTVSet::IsTurnedOn()const

@@ -24,6 +24,7 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 
 	BOOST_AUTO_TEST_CASE(can_not_switch_channel_then_turned_off)
 	{
+		tvSet.TurnOff();
 		BOOST_CHECK_EQUAL(tvSet.SelectChannel(7), false);
 	}
 
