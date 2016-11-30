@@ -29,7 +29,14 @@ bool CTVSet::IsTurnedOn()const
 
 bool CTVSet::SelectChannel(int channelNumber)
 {
-	return false;
+	if (!this->IsTurnedOn())
+	{
+		return false;
+	}
+
+	this->m_selectedChannelNumber = channelNumber;
+
+	return true;
 }
 
 int CTVSet::GetSelectedChannelNumber()const
