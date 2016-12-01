@@ -16,57 +16,57 @@ CTVSet::~CTVSet()
 
 void CTVSet::TurnOn()
 {
-	this->m_isTurnedOn = true;
+	m_isTurnedOn = true;
 }
 
 void CTVSet::TurnOff()
 {
-	this->m_isTurnedOn = false;
+	m_isTurnedOn = false;
 }
 
 bool CTVSet::IsTurnedOn()const
 {
-	return this->m_isTurnedOn;
+	return m_isTurnedOn;
 }
 
 bool CTVSet::SelectChannel(int channelNumber)
 {
-	if (!this->IsTurnedOn())
+	if (!IsTurnedOn())
 	{
 		return false;
 	}
 
-	if (channelNumber < this->m_channelRange::min || channelNumber > this->m_channelRange::max)
+	if (channelNumber < m_channelRange::min || channelNumber > m_channelRange::max)
 	{
 		return false;
 	}
 
-	this->m_previousChannel = this->m_selectedChannelNumber;
-	this->m_selectedChannelNumber = channelNumber;
+	m_previousChannel = m_selectedChannelNumber;
+	m_selectedChannelNumber = channelNumber;
 	
 	return true;
 }
 
 int CTVSet::GetSelectedChannelNumber()const
 {
-	if (!this->IsTurnedOn())
+	if (!IsTurnedOn())
 	{
 		return 0;
 	}
 
-	return this->m_selectedChannelNumber;
+	return m_selectedChannelNumber;
 }
 
-bool CTVSet::SelectPrevoiusChannel()
+bool CTVSet::SelectPreviousChannel()
 {
-	if (!this->IsTurnedOn())
+	if (!IsTurnedOn())
 	{
 		return false;
 	}
 
-	int tempChannelNumber = this->m_previousChannel;
-	this->m_previousChannel = this->m_selectedChannelNumber;
-	this->m_selectedChannelNumber = tempChannelNumber;
+	int tempChannelNumber = m_previousChannel;
+	m_previousChannel = m_selectedChannelNumber;
+	m_selectedChannelNumber = tempChannelNumber;
 	
 	return true;
 }

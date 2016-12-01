@@ -72,7 +72,7 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 		BOOST_AUTO_TEST_CASE(on_first_start_can_switch_to_previous_channel_that_have_number_1)
 		{
 			tvSet.TurnOn();
-			BOOST_CHECK(tvSet.SelectPrevoiusChannel());
+			BOOST_CHECK(tvSet.SelectPreviousChannel());
 			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 1);
 		}
 
@@ -91,7 +91,7 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 			tvSet.SelectChannel(55);
 			tvSet.TurnOff();
 			tvSet.TurnOn();
-			BOOST_CHECK(tvSet.SelectPrevoiusChannel());
+			BOOST_CHECK(tvSet.SelectPreviousChannel());
 			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 10);
 		}
 
@@ -99,7 +99,7 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 		{
 			tvSet.SelectChannel(10);
 			tvSet.SelectChannel(40);
-			tvSet.SelectPrevoiusChannel();
+			tvSet.SelectPreviousChannel();
 			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 10);
 		}
 
