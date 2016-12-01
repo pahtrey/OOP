@@ -34,8 +34,7 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 
 		BOOST_AUTO_TEST_CASE(can_not_switch_channel)
 		{
-			bool isSuccessfulOperation = tvSet.SelectChannel(7);
-			BOOST_CHECK(!isSuccessfulOperation);
+			BOOST_CHECK(!tvSet.SelectChannel(7));
 		}
 
 		BOOST_AUTO_TEST_CASE(can_be_turned_on)
@@ -56,8 +55,7 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 
 		BOOST_AUTO_TEST_CASE(can_select_channel)
 		{
-			bool isSuccessfulOperation = tvSet.SelectChannel(7);
-			BOOST_CHECK(isSuccessfulOperation);
+			tvSet.SelectChannel(7);
 			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 7);
 		}
 
@@ -68,8 +66,41 @@ BOOST_FIXTURE_TEST_SUITE(TVSet, TVSetFixture)
 
 		BOOST_AUTO_TEST_CASE(has_channel_range_between_1_and_99)
 		{
-			bool isSuccessfulOperation = tvSet.SelectChannel(999);
-			BOOST_CHECK(!isSuccessfulOperation);
+			BOOST_CHECK(!tvSet.SelectChannel(999));
+		}
+
+		BOOST_AUTO_TEST_CASE(on_first_start_can_switch_to_previous_channel_that_have_number_1)
+		{
+			tvSet.TurnOn();
+			BOOST_CHECK(tvSet.SelectPrevoiusChannel());
+			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(on_start_remains_previously_selected_channel)
+		{
+			tvSet.SelectChannel(10);
+			tvSet.TurnOff();
+			tvSet.TurnOn();
+			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 10);
+		}
+
+		BOOST_AUTO_TEST_CASE(on_start_can_switch_to_previous_channel)
+		{
+			tvSet.TurnOn();
+			tvSet.SelectChannel(10);
+			tvSet.SelectChannel(55);
+			tvSet.TurnOff();
+			tvSet.TurnOn();
+			BOOST_CHECK(tvSet.SelectPrevoiusChannel());
+			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 10);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_switch_to_previous_channel)
+		{
+			tvSet.SelectChannel(10);
+			tvSet.SelectChannel(40);
+			tvSet.SelectPrevoiusChannel();
+			BOOST_CHECK_EQUAL(tvSet.GetSelectedChannelNumber(), 10);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
