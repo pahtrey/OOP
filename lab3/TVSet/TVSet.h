@@ -12,6 +12,7 @@ public:
 	bool IsTurnedOn()const;
 
 	bool SelectChannel(int channelNumber);
+	bool SelectPrevoiusChannel();
 	int GetSelectedChannelNumber()const;
 
 private:
@@ -22,4 +23,5 @@ private:
 	};
 	bool m_isTurnedOn = false;
 	int m_selectedChannelNumber;
+	int m_previousChannel;
 };

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-CTVSet::CTVSet():m_selectedChannelNumber(m_channelRange::min)
+CTVSet::CTVSet():m_selectedChannelNumber(m_channelRange::min), m_previousChannel(m_channelRange::min)
 {
 }
 
@@ -41,8 +41,9 @@ bool CTVSet::SelectChannel(int channelNumber)
 		return false;
 	}
 
+	this->m_previousChannel = this->m_selectedChannelNumber;
 	this->m_selectedChannelNumber = channelNumber;
-
+	
 	return true;
 }
 
@@ -54,4 +55,18 @@ int CTVSet::GetSelectedChannelNumber()const
 	}
 
 	return this->m_selectedChannelNumber;
+}
+
+bool CTVSet::SelectPrevoiusChannel()
+{
+	if (!this->IsTurnedOn())
+	{
+		return false;
+	}
+
+	int tempChannelNumber = this->m_previousChannel;
+	this->m_previousChannel = this->m_selectedChannelNumber;
+	this->m_selectedChannelNumber = tempChannelNumber;
+	
+	return true;
 }
