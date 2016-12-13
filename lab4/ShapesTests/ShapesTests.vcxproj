@@ -173,6 +173,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Shapes\Point.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShapesTests.cpp" />
     <ClCompile Include="stdafx.cpp">
