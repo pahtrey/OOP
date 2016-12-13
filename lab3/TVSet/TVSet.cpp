@@ -6,7 +6,7 @@
 
 using namespace std;
 
-CTVSet::CTVSet():m_selectedChannelNumber(m_channelRange::min), m_previousChannel(m_channelRange::min)
+CTVSet::CTVSet():m_selectedChannelNumber(ChannelRange::min), m_previousChannel(ChannelRange::min)
 {
 }
 
@@ -36,7 +36,7 @@ bool CTVSet::SelectChannel(int channelNumber)
 		return false;
 	}
 
-	if (channelNumber < m_channelRange::min || channelNumber > m_channelRange::max)
+	if (channelNumber < ChannelRange::min || channelNumber > ChannelRange::max)
 	{
 		return false;
 	}
@@ -64,9 +64,7 @@ bool CTVSet::SelectPreviousChannel()
 		return false;
 	}
 
-	int tempChannelNumber = m_previousChannel;
-	m_previousChannel = m_selectedChannelNumber;
-	m_selectedChannelNumber = tempChannelNumber;
+	swap(m_previousChannel, m_selectedChannelNumber);
 	
 	return true;
 }

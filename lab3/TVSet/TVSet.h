@@ -16,7 +16,7 @@ public:
 	int GetSelectedChannelNumber()const;
 
 private:
-	enum m_channelRange
+	enum ChannelRange
 	{
 		min = 1,
 		max = 99
