@@ -10,6 +10,8 @@ public:
 	double GetX() const;
 	double GetY() const;
 
+	bool operator ==(CPoint point) const;
+
 	~CPoint();
 private:
 	double m_x;

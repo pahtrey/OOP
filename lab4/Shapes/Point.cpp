@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Point.h"
 
+using namespace std;
+
 CPoint::CPoint(double x, double y)
 	: m_x(x)
 	, m_y(y)
@@ -19,4 +21,9 @@ double CPoint::GetX() const
 double CPoint::GetY() const
 {
 	return m_y;
+}
+
+bool CPoint::operator ==(CPoint point) const
+{
+	return (m_x == point.GetX() && m_y == point.GetY());
 }
