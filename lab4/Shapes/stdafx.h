@@ -5,6 +5,8 @@
 
 #pragma once
 
+#define _USE_MATH_DEFINES
+
 #include "targetver.h"
 
 #include <stdio.h>
@@ -12,5 +14,6 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <cmath>
 
 // TODO: reference additional headers your program requires here

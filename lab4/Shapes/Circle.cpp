@@ -3,7 +3,11 @@
 
 using namespace std;
 
-CCircle::CCircle()
+CCircle::CCircle(CPoint center, double radius, string & outlineColor, string & fillColor)
+	: m_center(center)
+	, m_radius(radius)
+	, m_outlineColor(outlineColor)
+	, m_fillColor(fillColor)
 {
 }
 
@@ -13,27 +17,34 @@ CCircle::~CCircle()
 
 double CCircle::GetArea() const
 {
-	return 0.0;
+	return M_PI * pow(m_radius, 2);
 }
 
 double CCircle::GetPerimeter() const
 {
-	return 0.0;
+	return 2 * M_PI * m_radius;
 }
 
 string CCircle::ToString() const
 {
-	return "";
+	ostringstream strm;
+	strm << "Circle:" << endl << setprecision(4)
+		<< "\tarea = " << GetArea() << endl
+		<< "\tperimeter = " << GetPerimeter() << endl
+		<< "\toutline color = " << GetOutlineColor() << endl
+		<< "\tfill color = " << GetFillColor() << endl;
+
+	return strm.str();
 }
 
 string CCircle::GetOutlineColor() const
 {
-	return "";
+	return m_outlineColor;
 }
 
 string CCircle::GetFillColor() const
 {
-	return "";
+	return m_fillColor;
 }
 
 CPoint CCircle::GetCenter() const

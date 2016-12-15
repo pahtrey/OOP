@@ -27,7 +27,7 @@ double CLineSegment::GetPerimeter() const
 string CLineSegment::ToString() const
 {
 	ostringstream strm;
-	strm << "Line segment:" << endl << setprecision(2)
+	strm << "Line segment:" << endl << setprecision(4)
 		<< "\tarea = " << GetArea() << endl
 		<< "\tperimeter = " << GetPerimeter() << endl
 		<< "\toutline color = " << GetOutlineColor() << endl;
