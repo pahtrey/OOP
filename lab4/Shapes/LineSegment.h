@@ -5,7 +5,7 @@
 class CLineSegment : public IShape
 {
 public:
-	CLineSegment(CPoint startPoint, CPoint endPoint, std::string & outlineColor);
+	CLineSegment(CPoint startPoint, CPoint endPoint, std::string const & outlineColor);
 
 	double GetArea() const override;
 	double GetPerimeter() const override;
@@ -14,7 +14,7 @@ public:
 	CPoint GetStartPoint() const;
 	CPoint GetEndPoint() const;
 
-	~CLineSegment();
+	static double CalculateLineSegmentLength(CPoint startPoint, CPoint endPoint);
 private:
 	std::string m_outlineColor;
 	CPoint m_startPoint;

@@ -3,14 +3,10 @@
 
 using namespace std;
 
-CLineSegment::CLineSegment(CPoint startPoint, CPoint endPoint, string & outlineColor)
+CLineSegment::CLineSegment(CPoint startPoint, CPoint endPoint, string const & outlineColor)
 	: m_startPoint(startPoint)
 	, m_endPoint(endPoint)
 	, m_outlineColor(outlineColor)
-{
-}
-
-CLineSegment::~CLineSegment()
 {
 }
 
@@ -21,7 +17,7 @@ double CLineSegment::GetArea() const
 
 double CLineSegment::GetPerimeter() const
 {
-	return 0.0;
+	return CalculateLineSegmentLength(m_startPoint, m_endPoint);
 }
 
 string CLineSegment::ToString() const
@@ -48,4 +44,9 @@ CPoint CLineSegment::GetStartPoint() const
 CPoint CLineSegment::GetEndPoint() const
 {
 	return m_endPoint;
+}
+
+double CLineSegment::CalculateLineSegmentLength(CPoint startPoint, CPoint endPoint)
+{
+	return sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2));
 }
