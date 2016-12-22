@@ -3,15 +3,11 @@
 
 using namespace std;
 
-CCircle::CCircle(CPoint center, double radius, string & outlineColor, string & fillColor)
+CCircle::CCircle(CPoint center, double radius, string const & outlineColor, string const & fillColor)
 	: m_center(center)
 	, m_radius(radius)
 	, m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
-{
-}
-
-CCircle::~CCircle()
 {
 }
 
