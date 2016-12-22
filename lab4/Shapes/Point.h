@@ -7,13 +7,9 @@ public:
 	CPoint() = default;
 	CPoint(double x, double y);
 
-	double GetX() const;
-	double GetY() const;
+	double x = 0;
+	double y = 0;
 
 	bool operator ==(CPoint point) const;
-
-	~CPoint();
-private:
-	double m_x;
-	double m_y;
+	std::string ToString() const;
 };

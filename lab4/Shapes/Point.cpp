@@ -4,26 +4,20 @@
 using namespace std;
 
 CPoint::CPoint(double x, double y)
-	: m_x(x)
-	, m_y(y)
+	: x(x)
+	, y(y)
 {
-}
-
-CPoint::~CPoint()
-{
-}
-
-double CPoint::GetX() const
-{
-	return m_x;
-}
-
-double CPoint::GetY() const
-{
-	return m_y;
 }
 
 bool CPoint::operator ==(CPoint point) const
 {
-	return (m_x == point.GetX() && m_y == point.GetY());
+	return (x == point.x && y == point.y);
+}
+
+string CPoint::ToString() const
+{
+	ostringstream strm;
+	strm << "(" << x << ", " << y << ")";
+
+	return strm.str();
 }
