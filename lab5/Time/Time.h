@@ -13,7 +13,6 @@ public:
 
 	bool isValid() const;
 
-
 private:
 	unsigned m_secondsAfterMidnight = 0;
 };
