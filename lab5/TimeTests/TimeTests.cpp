@@ -57,4 +57,29 @@ BOOST_FIXTURE_TEST_SUITE(Time, TimeFixture)
 		CTime time(99, 32, 83);
 		BOOST_CHECK(!time.isValid());
 	}
+
+	BOOST_FIXTURE_TEST_SUITE(has_operator, TimeFixture)
+
+		BOOST_AUTO_TEST_CASE(postfix_increment)
+		{
+			CTime time(12, 30, 15);
+			BOOST_CHECK(CheckTime(time++, 12, 30, 15));
+			BOOST_CHECK(CheckTime(time, 12, 30, 16));
+
+			CTime time1(23, 59, 59);
+			BOOST_REQUIRE(CheckTime(time1++, 23, 59, 59));
+			BOOST_CHECK(CheckTime(time1, 0, 0, 0));
+		}
+
+		BOOST_AUTO_TEST_CASE(prefix_increment)
+		{
+			CTime time(12, 30, 15);
+			BOOST_CHECK(CheckTime(++time, 12, 30, 16));
+
+			CTime time1(23, 59, 59);
+			BOOST_REQUIRE(CheckTime(++time1, 0, 0, 0));
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
