@@ -80,6 +80,20 @@ BOOST_FIXTURE_TEST_SUITE(Time, TimeFixture)
 			BOOST_REQUIRE(CheckTime(++time1, 0, 0, 0));
 		}
 
+		BOOST_AUTO_TEST_CASE(equal_to)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(12, 30, 15);
+			BOOST_CHECK(time1 == time2);
+		}
+
+		BOOST_AUTO_TEST_CASE(not_equal_to)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(23, 59, 59);
+			BOOST_CHECK(time1 != time2);
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
