@@ -94,6 +94,72 @@ BOOST_FIXTURE_TEST_SUITE(Time, TimeFixture)
 			BOOST_CHECK(time1 != time2);
 		}
 
+		BOOST_AUTO_TEST_CASE(less_than)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(23, 59, 59);
+			BOOST_CHECK(time1 < time2);
+		}
+
+		BOOST_AUTO_TEST_CASE(greater_than)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(23, 59, 59);
+			BOOST_CHECK(time2 > time1);
+		}
+
+		BOOST_AUTO_TEST_CASE(less_than_or_equal_to)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(23, 59, 59);
+			BOOST_CHECK(time1 <= time2);
+			BOOST_CHECK(time1 <= time1);
+		}
+
+		BOOST_AUTO_TEST_CASE(greater_than_or_equal_to)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(23, 59, 59);
+			BOOST_CHECK(time2 >= time1);
+			BOOST_CHECK(time2 >= time2);
+		}
+
+		BOOST_AUTO_TEST_CASE(assignment_addition)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(1, 10, 15);
+			CTime time3(12, 1, 1);
+			BOOST_CHECK(CheckTime(time1 += time2, 13, 40, 30));
+			BOOST_CHECK(CheckTime(time1 += time3, 1, 41, 31));
+		}
+
+		BOOST_AUTO_TEST_CASE(assignment_subtraction)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(1, 10, 15);
+			CTime time3(12, 0, 0);
+			BOOST_CHECK(CheckTime(time1 -= time2, 11, 20, 0));
+			BOOST_CHECK(CheckTime(time1 -= time3, 23, 20, 0));
+		}
+
+		BOOST_AUTO_TEST_CASE(addition)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(1, 10, 15);
+			CTime time3(12, 1, 1);
+			BOOST_CHECK(CheckTime(time1 + time2, 13, 40, 30));
+			BOOST_CHECK(CheckTime(time1 + time3, 0, 31, 16));
+		}
+
+		BOOST_AUTO_TEST_CASE(subtraction)
+		{
+			CTime time1(12, 30, 15);
+			CTime time2(1, 10, 15);
+			CTime time3(13, 0, 0);
+			BOOST_CHECK(CheckTime(time1 - time2, 11, 20, 0));
+			BOOST_CHECK(CheckTime(time1 - time3, 23, 30, 15));
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
