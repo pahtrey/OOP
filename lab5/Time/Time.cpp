@@ -52,13 +52,77 @@ CTime & CTime::operator ++()
 /* Оператор == */
 bool CTime::operator ==(CTime const & other) const
 {
-	return GetHours() == other.GetHours()
-		&& GetMinutes() == other.GetMinutes()
-		&& GetSeconds() == other.GetSeconds();
+	return m_secondsAfterMidnight == other.m_secondsAfterMidnight;
 }
 
 /* Оператор != */
 bool CTime::operator !=(CTime const & other) const
 {
 	return !(*this == other);
+}
+
+/* Оператор < */
+bool CTime::operator <(CTime const & other) const
+{
+	return m_secondsAfterMidnight < other.m_secondsAfterMidnight;
+}
+
+/* Оператор > */
+bool CTime::operator >(CTime const & other) const
+{
+	return m_secondsAfterMidnight > other.m_secondsAfterMidnight;
+}
+
+/* Оператор <= */
+bool CTime::operator <=(CTime const & other) const
+{
+	return m_secondsAfterMidnight <= other.m_secondsAfterMidnight;
+}
+
+/* Оператор >= */
+bool CTime::operator >=(CTime const & other) const
+{
+	return m_secondsAfterMidnight >= other.m_secondsAfterMidnight;
+}
+
+/* Оператор += */
+CTime & CTime::operator +=(CTime const & other)
+{
+	if (std::addressof(other) != this)
+	{
+		m_secondsAfterMidnight += other.m_secondsAfterMidnight;
+		if (m_secondsAfterMidnight > SECONDS_IN_DAY)
+		{
+			m_secondsAfterMidnight -= SECONDS_IN_DAY;
+		}
+	}
+	return *this;
+}
+
+/* Оператор -= */
+CTime & CTime::operator -=(CTime const & other)
+{
+	if (std::addressof(other) != this)
+	{
+		signed subtractionResult = m_secondsAfterMidnight - other.m_secondsAfterMidnight;
+		if (subtractionResult < 0)
+		{
+			subtractionResult = SECONDS_IN_DAY - (subtractionResult * (-1));
+		}
+		m_secondsAfterMidnight = subtractionResult;
+	}
+	return *this;
+}
+
+/* Оператор + */
+CTime const CTime::operator +(CTime const & other)const
+{
+	return CTime((m_secondsAfterMidnight + other.m_secondsAfterMidnight) % SECONDS_IN_DAY);
+}
+
+/* Оператор - */
+CTime const CTime::operator -(CTime const & other)const
+{
+	signed subtractionResult = m_secondsAfterMidnight - other.m_secondsAfterMidnight;
+	return CTime((subtractionResult < 0) ? SECONDS_IN_DAY - (subtractionResult * (-1)) : subtractionResult);
 }

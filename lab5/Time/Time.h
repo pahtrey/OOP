@@ -18,6 +18,18 @@ public:
 
 	bool operator ==(CTime const & other) const;
 	bool operator !=(CTime const & other) const;
+
+	bool operator <(CTime const & other) const;
+	bool operator >(CTime const & other) const;
+
+	bool operator <=(CTime const & other) const;
+	bool operator >=(CTime const & other) const;
+
+	CTime & operator +=(CTime const & other);
+	CTime & operator -=(CTime const & other);
+
+	CTime const operator +(CTime const & other) const;
+	CTime const operator -(CTime const & other) const;
 private:
 	unsigned m_secondsAfterMidnight = 0;
 };
