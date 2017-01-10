@@ -13,9 +13,11 @@ public:
 
 	bool isValid() const;
 
-	CTime const CTime::operator++(int);
-	CTime & operator++();
+	CTime const CTime::operator ++(int);
+	CTime & operator ++();
 
+	bool operator ==(CTime const & other) const;
+	bool operator !=(CTime const & other) const;
 private:
 	unsigned m_secondsAfterMidnight = 0;
 };

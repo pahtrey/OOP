@@ -31,7 +31,7 @@ bool CTime::isValid() const
 }
 
 /* Оператор ++ постфиксная форма */
-CTime const CTime::operator++(int)
+CTime const CTime::operator ++(int)
 {
 	CTime timeCopy(m_secondsAfterMidnight);
 	++*this;
@@ -39,7 +39,7 @@ CTime const CTime::operator++(int)
 }
 
 /* Оператор ++ префиксная форма */
-CTime & CTime::operator++()
+CTime & CTime::operator ++()
 {
 	++m_secondsAfterMidnight;
 	if (m_secondsAfterMidnight >= SECONDS_IN_DAY)
@@ -49,3 +49,16 @@ CTime & CTime::operator++()
 	return *this;
 }
 
+/* Оператор == */
+bool CTime::operator ==(CTime const & other) const
+{
+	return GetHours() == other.GetHours()
+		&& GetMinutes() == other.GetMinutes()
+		&& GetSeconds() == other.GetSeconds();
+}
+
+/* Оператор != */
+bool CTime::operator !=(CTime const & other) const
+{
+	return !(*this == other);
+}
