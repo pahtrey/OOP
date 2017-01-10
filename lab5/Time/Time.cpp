@@ -29,3 +29,23 @@ bool CTime::isValid() const
 {
 	return m_secondsAfterMidnight < SECONDS_IN_DAY;
 }
+
+/* Оператор ++ постфиксная форма */
+CTime const CTime::operator++(int)
+{
+	CTime timeCopy(m_secondsAfterMidnight);
+	++*this;
+	return timeCopy;
+}
+
+/* Оператор ++ префиксная форма */
+CTime & CTime::operator++()
+{
+	++m_secondsAfterMidnight;
+	if (m_secondsAfterMidnight >= SECONDS_IN_DAY)
+	{
+		m_secondsAfterMidnight = m_secondsAfterMidnight - SECONDS_IN_DAY;
+	}
+	return *this;
+}
+

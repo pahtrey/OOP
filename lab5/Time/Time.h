@@ -13,6 +13,9 @@ public:
 
 	bool isValid() const;
 
+	CTime const CTime::operator++(int);
+	CTime & operator++();
+
 private:
 	unsigned m_secondsAfterMidnight = 0;
 };
