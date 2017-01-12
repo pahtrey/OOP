@@ -13,7 +13,7 @@ public:
 
 	bool isValid() const;
 
-	CTime const CTime::operator ++(int);
+	CTime const operator ++(int);
 	CTime & operator ++();
 
 	bool operator ==(CTime const & other) const;
@@ -30,6 +30,20 @@ public:
 
 	CTime const operator +(CTime const & other) const;
 	CTime const operator -(CTime const & other) const;
+
+	CTime const operator --(int);
+	CTime & operator --();
+
+	CTime const operator *(unsigned number)const;
+	CTime const friend operator *(unsigned number, CTime const & other);
+
+	CTime const operator /(unsigned number)const;
+	unsigned operator /(CTime const & other)const;
+
+	CTime & operator *=(unsigned number);
+	CTime & operator /=(unsigned number);
+
+	std::ostream friend & operator <<(std::ostream & output, CTime const & time);
 private:
 	unsigned m_secondsAfterMidnight = 0;
 };

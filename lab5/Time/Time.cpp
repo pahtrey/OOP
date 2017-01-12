@@ -30,7 +30,6 @@ bool CTime::isValid() const
 	return m_secondsAfterMidnight < SECONDS_IN_DAY;
 }
 
-/* Оператор ++ постфиксная форма */
 CTime const CTime::operator ++(int)
 {
 	CTime timeCopy(m_secondsAfterMidnight);
@@ -38,7 +37,6 @@ CTime const CTime::operator ++(int)
 	return timeCopy;
 }
 
-/* Оператор ++ префиксная форма */
 CTime & CTime::operator ++()
 {
 	++m_secondsAfterMidnight;
@@ -49,43 +47,36 @@ CTime & CTime::operator ++()
 	return *this;
 }
 
-/* Оператор == */
 bool CTime::operator ==(CTime const & other) const
 {
 	return m_secondsAfterMidnight == other.m_secondsAfterMidnight;
 }
 
-/* Оператор != */
 bool CTime::operator !=(CTime const & other) const
 {
 	return !(*this == other);
 }
 
-/* Оператор < */
 bool CTime::operator <(CTime const & other) const
 {
 	return m_secondsAfterMidnight < other.m_secondsAfterMidnight;
 }
 
-/* Оператор > */
 bool CTime::operator >(CTime const & other) const
 {
 	return m_secondsAfterMidnight > other.m_secondsAfterMidnight;
 }
 
-/* Оператор <= */
 bool CTime::operator <=(CTime const & other) const
 {
 	return m_secondsAfterMidnight <= other.m_secondsAfterMidnight;
 }
 
-/* Оператор >= */
 bool CTime::operator >=(CTime const & other) const
 {
 	return m_secondsAfterMidnight >= other.m_secondsAfterMidnight;
 }
 
-/* Оператор += */
 CTime & CTime::operator +=(CTime const & other)
 {
 	if (std::addressof(other) != this)
@@ -99,7 +90,6 @@ CTime & CTime::operator +=(CTime const & other)
 	return *this;
 }
 
-/* Оператор -= */
 CTime & CTime::operator -=(CTime const & other)
 {
 	if (std::addressof(other) != this)
@@ -114,15 +104,97 @@ CTime & CTime::operator -=(CTime const & other)
 	return *this;
 }
 
-/* Оператор + */
 CTime const CTime::operator +(CTime const & other)const
 {
 	return CTime((m_secondsAfterMidnight + other.m_secondsAfterMidnight) % SECONDS_IN_DAY);
 }
 
-/* Оператор - */
 CTime const CTime::operator -(CTime const & other)const
 {
 	signed subtractionResult = m_secondsAfterMidnight - other.m_secondsAfterMidnight;
 	return CTime((subtractionResult < 0) ? SECONDS_IN_DAY - (subtractionResult * (-1)) : subtractionResult);
+}
+
+
+CTime const CTime::operator --(int)
+{
+	CTime tmpCopy(m_secondsAfterMidnight);
+	--*this;
+	return tmpCopy;
+}
+
+CTime & CTime::operator --()
+{
+	m_secondsAfterMidnight == 0 ? m_secondsAfterMidnight = SECONDS_IN_DAY - 1: --m_secondsAfterMidnight;
+	return *this;
+}
+
+CTime const CTime::operator *(unsigned number)const
+{
+	unsigned multiplicationResult = m_secondsAfterMidnight * number;
+	return CTime((multiplicationResult > SECONDS_IN_DAY)
+		? multiplicationResult % SECONDS_IN_DAY
+		: multiplicationResult);
+}
+
+CTime const operator *(unsigned number, CTime const & other)
+{
+	unsigned multiplicationResult = other.m_secondsAfterMidnight * number;
+	return CTime((multiplicationResult > SECONDS_IN_DAY)
+		? multiplicationResult % SECONDS_IN_DAY
+		: multiplicationResult);
+}
+
+CTime const CTime::operator /(unsigned number)const
+{
+	if (number == 0)
+	{
+		throw std::logic_error("Can't divide by zero");
+	}
+	return CTime(m_secondsAfterMidnight / number);
+}
+
+unsigned CTime::operator /(CTime const & other)const
+{
+	if (other.m_secondsAfterMidnight == 0)
+	{
+		throw std::logic_error("Can't divide by zero");
+	}
+	return m_secondsAfterMidnight / other.m_secondsAfterMidnight;
+}
+
+CTime & CTime::operator *=(unsigned number)
+{
+	m_secondsAfterMidnight *= number;
+	if (m_secondsAfterMidnight > SECONDS_IN_DAY)
+	{
+		m_secondsAfterMidnight = m_secondsAfterMidnight % SECONDS_IN_DAY;
+	}
+	return *this;
+}
+
+CTime & CTime::operator /=(unsigned number)
+{
+	if (number == 0)
+	{
+		throw std::logic_error("Can't divide by zero");
+	}
+	m_secondsAfterMidnight /= number;
+	return *this;
+}
+
+std::ostream & operator <<(std::ostream & output, CTime const & time)
+{
+	if (time.isValid())
+	{
+		std::string hours = "0" + std::to_string(time.GetHours());
+		std::string minutes = "0" + std::to_string(time.GetMinutes());
+		std::string seconds = "0" + std::to_string(time.GetSeconds());
+		output << hours.substr(hours.size() - 2) + ":" + minutes.substr(minutes.size() - 2) + ":" + seconds.substr(seconds.size() - 2);
+	}
+	else
+	{
+		output << "INVALID";
+	}
+	return output;
 }
