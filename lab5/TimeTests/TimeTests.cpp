@@ -63,21 +63,19 @@ BOOST_FIXTURE_TEST_SUITE(Time, TimeFixture)
 		BOOST_AUTO_TEST_CASE(postfix_increment)
 		{
 			CTime time(12, 30, 15);
+			CTime time1(23, 59, 59);
 			BOOST_CHECK(CheckTime(time++, 12, 30, 15));
 			BOOST_CHECK(CheckTime(time, 12, 30, 16));
-
-			CTime time1(23, 59, 59);
-			BOOST_REQUIRE(CheckTime(time1++, 23, 59, 59));
+			BOOST_CHECK(CheckTime(time1++, 23, 59, 59));
 			BOOST_CHECK(CheckTime(time1, 0, 0, 0));
 		}
 
 		BOOST_AUTO_TEST_CASE(prefix_increment)
 		{
 			CTime time(12, 30, 15);
-			BOOST_CHECK(CheckTime(++time, 12, 30, 16));
-
 			CTime time1(23, 59, 59);
-			BOOST_REQUIRE(CheckTime(++time1, 0, 0, 0));
+			BOOST_CHECK(CheckTime(++time, 12, 30, 16));
+			BOOST_CHECK(CheckTime(++time1, 0, 0, 0));
 		}
 
 		BOOST_AUTO_TEST_CASE(equal_to)
@@ -160,6 +158,83 @@ BOOST_FIXTURE_TEST_SUITE(Time, TimeFixture)
 			BOOST_CHECK(CheckTime(time1 - time3, 23, 30, 15));
 		}
 
+		BOOST_AUTO_TEST_CASE(postfix_decrement)
+		{
+			CTime time(12, 30, 15);
+			CTime time1(0, 0, 0);
+			BOOST_CHECK(CheckTime(time--, 12, 30, 15));
+			BOOST_CHECK(CheckTime(time, 12, 30, 14));
+			BOOST_CHECK(CheckTime(time1--, 0, 0, 0));
+			BOOST_CHECK(CheckTime(time1, 23, 59, 59));
+		}
+
+		BOOST_AUTO_TEST_CASE(prefix_decrement)
+		{
+			CTime time(12, 30, 15);
+			CTime time1(0, 0, 0);
+			BOOST_CHECK(CheckTime(--time, 12, 30, 14));
+			BOOST_CHECK(CheckTime(--time1, 23, 59, 59));
+		}
+
+		BOOST_AUTO_TEST_CASE(multiplication)
+		{
+			CTime time(12, 30, 15);
+			CTime multiplicationCheck = time * 2;
+			CTime multiplicationCheck1 = 2 * time;
+			CTime multiplicationCheck3 = time * 0;
+			BOOST_CHECK(CheckTime(multiplicationCheck, 1, 0, 30));
+			BOOST_CHECK(CheckTime(multiplicationCheck1, 1, 0, 30));
+			BOOST_CHECK(CheckTime(multiplicationCheck3, 0, 0, 0));
+		}
+
+		BOOST_AUTO_TEST_CASE(division)
+		{
+			CTime time(12, 30, 15);
+			CTime time1(10, 10, 10);
+			CTime time2(2, 2, 2);
+			CTime time3(0, 0, 0);
+			CTime divisionCheck = time / 3;
+			unsigned divisionCheck1 = time1 / time2;
+			BOOST_CHECK(CheckTime(divisionCheck, 4, 10, 5));
+			BOOST_REQUIRE_THROW(time / 0, std::logic_error);
+			BOOST_CHECK(divisionCheck1 == 5);
+			BOOST_REQUIRE_THROW(time1 / time3, std::logic_error);
+		}
+
+		BOOST_AUTO_TEST_CASE(assignment_multiplication)
+		{
+			CTime time(6, 15, 10);
+			time *= 2;
+			BOOST_CHECK(CheckTime(time, 12, 30, 20));
+			time *= 2;
+			BOOST_CHECK(CheckTime(time, 1, 0, 40));
+		}
+
+		BOOST_AUTO_TEST_CASE(assignment_division)
+		{
+			CTime time(12, 30, 10);
+			time /= 2;
+			BOOST_CHECK(CheckTime(time, 6, 15, 5));
+			BOOST_REQUIRE_THROW(time /= 0, std::logic_error);
+		}
+
+		BOOST_AUTO_TEST_CASE(insert_string_into_stream)
+		{
+			CTime time(12, 30, 15);
+			std::stringstream output;
+			output << time;
+			BOOST_CHECK_EQUAL(output.str(), "12:30:15");
+			output.str(std::string());
+
+			CTime time1(6, 15, 5);
+			output << time1;
+			BOOST_CHECK_EQUAL(output.str(), "06:15:05");
+			output.str(std::string());
+
+			CTime time2(99, 99, 99);
+			output << time2;
+			BOOST_CHECK_EQUAL(output.str(), "INVALID");
+		}
 	BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
