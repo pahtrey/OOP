@@ -11,8 +11,6 @@ public:
 	unsigned GetMinutes() const;
 	unsigned GetSeconds() const;
 
-	bool isValid() const;
-
 	CTime const operator ++(int);
 	CTime & operator ++();
 
@@ -44,6 +42,7 @@ public:
 	CTime & operator /=(unsigned number);
 
 	std::ostream friend & operator <<(std::ostream & output, CTime const & time);
+	std::istream friend & operator >>(std::istream & input, CTime & time);
 private:
 	unsigned m_secondsAfterMidnight = 0;
 };

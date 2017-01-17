@@ -1,13 +1,26 @@
 #include "stdafx.h"
+#include <iomanip>
 #include "Time.h"
 
 CTime::CTime(unsigned hours, unsigned minutes, unsigned seconds)
 {
+	if (hours > MAX_HOURS_IN_DAY || minutes > MAX_MINUTES_IN_HOUR || seconds > MAX_SECONDS_IN_MINUTE)
+	{
+		throw std::invalid_argument("Invalid arguments values");
+	}
 	m_secondsAfterMidnight = hours * SECONDS_IN_HOUR + minutes * SECONDS_IN_MINUTE + seconds;
 }
 
-CTime::CTime(unsigned timeStamp) : m_secondsAfterMidnight(timeStamp)
+CTime::CTime(unsigned timeStamp)
 {
+	if (timeStamp > SECONDS_IN_DAY)
+	{
+		throw std::invalid_argument("Timestamp must be less than 86400");
+	}
+	else if (timeStamp < SECONDS_IN_DAY)
+	{
+		m_secondsAfterMidnight = timeStamp;
+	}
 }
 
 unsigned CTime::GetHours() const
@@ -23,11 +36,6 @@ unsigned CTime::GetMinutes() const
 unsigned CTime::GetSeconds() const
 {
 	return m_secondsAfterMidnight % SECONDS_IN_MINUTE;
-}
-
-bool CTime::isValid() const
-{
-	return m_secondsAfterMidnight < SECONDS_IN_DAY;
 }
 
 CTime const CTime::operator ++(int)
@@ -79,42 +87,36 @@ bool CTime::operator >=(CTime const & other) const
 
 CTime & CTime::operator +=(CTime const & other)
 {
-	if (std::addressof(other) != this)
+	m_secondsAfterMidnight += other.m_secondsAfterMidnight;
+	if (m_secondsAfterMidnight >= SECONDS_IN_DAY)
 	{
-		m_secondsAfterMidnight += other.m_secondsAfterMidnight;
-		if (m_secondsAfterMidnight > SECONDS_IN_DAY)
-		{
-			m_secondsAfterMidnight -= SECONDS_IN_DAY;
-		}
+		m_secondsAfterMidnight -= SECONDS_IN_DAY;
 	}
 	return *this;
 }
 
 CTime & CTime::operator -=(CTime const & other)
 {
-	if (std::addressof(other) != this)
+	signed subtractionResult = m_secondsAfterMidnight - other.m_secondsAfterMidnight;
+	if (subtractionResult < 0)
 	{
-		signed subtractionResult = m_secondsAfterMidnight - other.m_secondsAfterMidnight;
-		if (subtractionResult < 0)
-		{
-			subtractionResult = SECONDS_IN_DAY - (subtractionResult * (-1));
-		}
-		m_secondsAfterMidnight = subtractionResult;
+		subtractionResult = SECONDS_IN_DAY + subtractionResult;
 	}
+	m_secondsAfterMidnight = subtractionResult;
 	return *this;
 }
 
 CTime const CTime::operator +(CTime const & other)const
 {
-	return CTime((m_secondsAfterMidnight + other.m_secondsAfterMidnight) % SECONDS_IN_DAY);
+	signed additionResult = m_secondsAfterMidnight + other.m_secondsAfterMidnight;
+	return CTime((additionResult >= SECONDS_IN_DAY) ? additionResult - SECONDS_IN_DAY : additionResult);
 }
 
 CTime const CTime::operator -(CTime const & other)const
 {
 	signed subtractionResult = m_secondsAfterMidnight - other.m_secondsAfterMidnight;
-	return CTime((subtractionResult < 0) ? SECONDS_IN_DAY - (subtractionResult * (-1)) : subtractionResult);
+	return CTime((subtractionResult < 0) ? SECONDS_IN_DAY + subtractionResult : subtractionResult);
 }
-
 
 CTime const CTime::operator --(int)
 {
@@ -132,7 +134,7 @@ CTime & CTime::operator --()
 CTime const CTime::operator *(unsigned number)const
 {
 	unsigned multiplicationResult = m_secondsAfterMidnight * number;
-	return CTime((multiplicationResult > SECONDS_IN_DAY)
+	return CTime((multiplicationResult >= SECONDS_IN_DAY)
 		? multiplicationResult % SECONDS_IN_DAY
 		: multiplicationResult);
 }
@@ -140,7 +142,7 @@ CTime const CTime::operator *(unsigned number)const
 CTime const operator *(unsigned number, CTime const & other)
 {
 	unsigned multiplicationResult = other.m_secondsAfterMidnight * number;
-	return CTime((multiplicationResult > SECONDS_IN_DAY)
+	return CTime((multiplicationResult >= SECONDS_IN_DAY)
 		? multiplicationResult % SECONDS_IN_DAY
 		: multiplicationResult);
 }
@@ -149,7 +151,7 @@ CTime const CTime::operator /(unsigned number)const
 {
 	if (number == 0)
 	{
-		throw std::logic_error("Can't divide by zero");
+		throw std::invalid_argument("Can't divide by zero");
 	}
 	return CTime(m_secondsAfterMidnight / number);
 }
@@ -158,7 +160,7 @@ unsigned CTime::operator /(CTime const & other)const
 {
 	if (other.m_secondsAfterMidnight == 0)
 	{
-		throw std::logic_error("Can't divide by zero");
+		throw std::invalid_argument("Can't divide by zero");
 	}
 	return m_secondsAfterMidnight / other.m_secondsAfterMidnight;
 }
@@ -166,7 +168,7 @@ unsigned CTime::operator /(CTime const & other)const
 CTime & CTime::operator *=(unsigned number)
 {
 	m_secondsAfterMidnight *= number;
-	if (m_secondsAfterMidnight > SECONDS_IN_DAY)
+	if (m_secondsAfterMidnight >= SECONDS_IN_DAY)
 	{
 		m_secondsAfterMidnight = m_secondsAfterMidnight % SECONDS_IN_DAY;
 	}
@@ -177,7 +179,7 @@ CTime & CTime::operator /=(unsigned number)
 {
 	if (number == 0)
 	{
-		throw std::logic_error("Can't divide by zero");
+		throw std::invalid_argument("Can't divide by zero");
 	}
 	m_secondsAfterMidnight /= number;
 	return *this;
@@ -185,16 +187,28 @@ CTime & CTime::operator /=(unsigned number)
 
 std::ostream & operator <<(std::ostream & output, CTime const & time)
 {
-	if (time.isValid())
+	output << std::setfill('0') << std::setw(2) << time.GetHours() << ":";
+	output << std::setfill('0') << std::setw(2) << time.GetMinutes() << ":";
+	output << std::setfill('0') << std::setw(2) << time.GetSeconds();
+	return output;
+}
+
+std::istream & operator >>(std::istream & input, CTime & time)
+{
+	unsigned hours;
+	unsigned minutes;
+	unsigned seconds;
+	if (input >> hours
+		&& input.get() == ':'
+		&& input >> minutes
+		&& input.get() == ':'
+		&& input >> seconds)
 	{
-		std::string hours = "0" + std::to_string(time.GetHours());
-		std::string minutes = "0" + std::to_string(time.GetMinutes());
-		std::string seconds = "0" + std::to_string(time.GetSeconds());
-		output << hours.substr(hours.size() - 2) + ":" + minutes.substr(minutes.size() - 2) + ":" + seconds.substr(seconds.size() - 2);
+		time = CTime(hours, minutes, seconds);
 	}
 	else
 	{
-		output << "INVALID";
+		input.setstate(std::ios::failbit);
 	}
-	return output;
+	return input;
 }
