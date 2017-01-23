@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "MyIter.h"
 
 template <typename T>
 class CMyArray
