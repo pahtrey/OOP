@@ -15,7 +15,7 @@ public:
 
 	T& operator*() const
 	{ // return designated object
-		return (*m_ptr);
+		return *m_ptr;
 	}
 
 	T* operator->() const
@@ -26,90 +26,90 @@ public:
 	CMyIter& operator++()
 	{ // preincrement
 		++m_ptr;
-		return (*this);
+		return *this;
 	}
 
 	CMyIter operator++(int)
 	{ // postincrement
 		CMyIter tmp = *this;
 		++*this;
-		return (tmp);
+		return tmp;
 	}
 
 	CMyIter& operator--()
 	{ // predecrement
 		--m_ptr;
-		return (*this);
+		return *this;
 	}
 
 	CMyIter& operator--(int)
 	{ // postdecrement
 		CMyIter tmp = *this;
 		--*this;
-		return (tmp);
+		return tmp;
 	}
 
 	CMyIter& operator+=(ptrdiff_t off)
 	{ // increment by integer
 		m_ptr += off;
-		return (*this);
+		return *this;
 	}
 
 	CMyIter operator+(ptrdiff_t off) const
 	{ // return this + integer
 		CMyIter tmp = *this;
-		return (tmp += off);
+		return tmp += off;
 	}
 
 	CMyIter& operator-=(ptrdiff_t off)
 	{ // decrement by integer
-		return (*this += -off);
+		return *this += -off;
 	}
 
 	CMyIter operator-(ptrdiff_t off) const
 	{ // return this - integer
 		CMyIter tmp = *this;
-		return (tmp -= off);
+		return tmp -= off;
 	}
 
 	ptrdiff_t operator-(const CMyIter& right) const
 	{ // return difference of iterators
-		return (m_ptr - right.m_ptr);
+		return m_ptr - right.m_ptr;
 	}
 
 	T& operator[](ptrdiff_t off) const
 	{	// subscript
-		return (*(*this + off));
+		return *(*this + off);
 	}
 
 	bool operator==(const CMyIter& right) const
 	{	// test for iterator equality
-		return (m_ptr == right.m_ptr);
+		return m_ptr == right.m_ptr;
 	}
 
 	bool operator!=(const CMyIter& right) const
 	{	// test for iterator inequality
-		return (!(*this == right));
+		return !(*this == right);
 	}
 
 	bool operator<(const CMyIter& right) const
 	{	// test if this < right
-		return (m_ptr < right.m_ptr);
+		return m_ptr < right.m_ptr;
 	}
 
 	bool operator>(const CMyIter& right) const
 	{	// test if this > right
-		return (right < *this);
+		return right < *this;
 	}
 
 	bool operator<=(const CMyIter& right) const
 	{	// test if this <= right
-		return (!(right < *this));
+		return !(right < *this);
 	}
 
 	bool operator>=(const CMyIter& right) const
 	{	// test if this >= right
-		return (!(*this < right));
+		return !(*this < right);
 	}
 private:
 	T* m_ptr;

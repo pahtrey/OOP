@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "CMyArray.h"
-#include "vector"
+#include <vector>
+#include <iostream>
+#include <string>
 
 int main()
 {
-	std::vector<int> example;
     return 0;
 }
