@@ -42,7 +42,7 @@ public:
 		return *this;
 	}
 
-	CMyIter& operator--(int)
+	CMyIter operator--(int)
 	{ // postdecrement
 		CMyIter tmp = *this;
 		--*this;
