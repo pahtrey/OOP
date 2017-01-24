@@ -13,6 +13,10 @@ public:
 	{ // construct with pointer p
 	};
 
+	CMyIter(const CMyIter& it) : m_ptr(it.m_ptr)
+	{ // construct with iterator it
+	};
+
 	T& operator*() const
 	{ // return designated object
 		return *m_ptr;

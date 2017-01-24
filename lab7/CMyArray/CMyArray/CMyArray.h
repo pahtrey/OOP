@@ -45,30 +45,48 @@ public:
 	{
 		if (m_end == m_endOfCapacity) // no free space
 		{
-			size_t newCapacity = max(size_t(1), GetCapacity() * 2);
-
-			Reserve(newCapacity);
+			size_t newCapacity = (std::max)(size_t(1), GetCapacity() * 2);
+			auto newBegin = RawAlloc(newCapacity);
+			T *newEnd = newBegin;
+			try
+			{
+				CopyItems(m_begin, m_end, newBegin, newEnd);
+				// Конструируем копию value по адресу newItemLocation
+				new (newEnd) T(value);
+				++newEnd;
+			}
+			catch (...)
+			{
+				DeleteItems(newBegin, newEnd);
+				throw;
+			}
+			DeleteItems(m_begin, m_end);
+			// Переключаемся на использование нового хранилища элементов
+			m_begin = newBegin;
+			m_end = newEnd;
+			m_endOfCapacity = m_begin + newCapacity;
 		}
-		// Конструируем копию value по адресу newItemLocation
-		new (m_end) T(value);
-		++m_end;
+		else // has free space
+		{
+			new (m_end) T(value);
+			++m_end;
+		}
 	}
 
 	void Resize(size_t newSize)
 	{
 		if (newSize < GetSize())
 		{
-			PopBackN(GetSize() - newSize)
+			PopBackN(GetSize() - newSize);
 		}
 		else if (GetSize() < newSize)
 		{
 			CMyArray temp;
-			temp.Reserve(newSize);
-
 			for (size_t i = 0; i < GetSize(); ++i)
 			{
 				temp.Append(*(m_begin + i));
 			}
+
 			for (size_t i = GetSize(); i < newSize; ++i)
 			{
 				temp.Append(T());
@@ -80,40 +98,17 @@ public:
 
 	void PopBackN(size_t count)
 	{
-		T* ptr = m_end - count;
-		DeleteItems(ptr, m_end);
+		T* ptr = (T *)(m_end - count);
+		DestroyItems(ptr, m_end);
 		m_end = ptr;
-	}
-
-	void Reserve(size_t count)
-	{
-		if (GetCapacity() < count)
-		{
-			auto newBegin = RawAlloc(count);
-			T *newEnd = newBegin;
-			try
-			{
-				CopyItems(m_begin, m_end, newBegin, newEnd);
-			}
-			catch (...)
-			{
-				DeleteItems(newBegin, newEnd);
-				throw;
-			}
-			DeleteItems(m_begin, m_end);
-
-			// Переключаемся на использование нового хранилища элементов
-			m_begin = newBegin;
-			m_end = newEnd;
-			m_endOfCapacity = m_begin + count;
-		}
 	}
 
 	void Clear()
 	{
 		DeleteItems(m_begin, m_end);
-		m_end = m_begin;
-		m_endOfCapacity = m_begin;
+		m_begin = nullptr;
+		m_end = nullptr;
+		m_endOfCapacity = nullptr;
 	}
 
 	T& GetBack()
@@ -189,10 +184,9 @@ public:
 			m_end = right.m_end;
 			m_endOfCapacity = right.m_endOfCapacity;
 
-			right.Clear();
-			/*right.m_begin = nullptr;
+			right.m_begin = nullptr;
 			right.m_end = nullptr;
-			right.m_endOfCapacity = nullptr;*/
+			right.m_endOfCapacity = nullptr;
 		}
 		return *this;
 	}
