@@ -2,6 +2,7 @@
 #define BOOST_TEST_NO_MAIN
 #include <boost/test/included/unit_test.hpp>
 #include "../CMyArray/CMyArray.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -17,6 +18,18 @@ struct EmptyStringArray
 	CMyArray<ArrayItem> arr;
 };
 
+bool CheckEqualArrays(CMyArray<ArrayItem> const& left, CMyArray<ArrayItem> const& right)
+{
+	for (size_t i = 0; i < left.GetSize(); ++i)
+	{
+		if (left[i].value != right[i].value)
+		{
+			return false;
+		}
+	}
+	return left.GetSize() == right.GetSize();
+}
+
 BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 	BOOST_AUTO_TEST_SUITE(by_default)
 		BOOST_AUTO_TEST_CASE(is_empty)
@@ -27,6 +40,12 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 		BOOST_AUTO_TEST_CASE(has_0_capacity)
 		{
 			BOOST_CHECK_EQUAL(arr.GetCapacity(), 0u);
+		}
+		BOOST_AUTO_TEST_CASE(has_not_access_by_subscript)
+		{
+			ArrayItem x;
+			BOOST_CHECK_THROW(x = arr[0], std::out_of_range);
+			BOOST_CHECK_THROW(x = arr[-1], std::out_of_range);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 
@@ -59,6 +78,45 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			BOOST_CHECK_EQUAL(arr.GetBack().value, 4);
 		}
 
+		BOOST_AUTO_TEST_CASE(has_access_by_subscript)
+		{
+			arr.Append(1);
+			BOOST_CHECK_EQUAL(arr[0].value, 1);
+			arr.Append(2);
+			BOOST_CHECK_EQUAL(arr[1].value, 2);
+			arr.Append(3);
+			BOOST_CHECK_EQUAL(arr[2].value, 3);
+			arr.Append(4);
+			BOOST_CHECK_EQUAL(arr[3].value, 4);
+			BOOST_CHECK_THROW(auto x = arr[4], std::out_of_range);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_be_resized)
+		{
+			arr.Append(1);
+			arr.Append(2);
+			BOOST_CHECK_EQUAL(arr.GetSize(), 2);
+			arr.Resize(4);
+			BOOST_CHECK_EQUAL(arr.GetSize(), 4);
+			BOOST_CHECK_EQUAL(arr[0].value, 1);
+			BOOST_CHECK_EQUAL(arr[1].value, 2);
+			BOOST_CHECK_EQUAL(arr[2].value, 0);
+			BOOST_CHECK_EQUAL(arr[3].value, 0);
+			arr.Resize(1);
+			BOOST_CHECK_EQUAL(arr.GetSize(), 1);
+			BOOST_CHECK_EQUAL(arr[0].value, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_be_cleared)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			BOOST_CHECK_EQUAL(arr.GetSize(), 6u);
+			BOOST_CHECK_NO_THROW(arr.Clear());
+			BOOST_CHECK_EQUAL(arr.GetSize(), 0u);
+		}
 	BOOST_AUTO_TEST_SUITE_END()
 
 	BOOST_AUTO_TEST_SUITE(after_copy_construction)
@@ -73,6 +131,72 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			auto copy(arr);
 			BOOST_CHECK_EQUAL(copy.GetSize(), arr.GetSize());
 			BOOST_CHECK_EQUAL(copy.GetCapacity(), arr.GetSize());
+		}
+		BOOST_AUTO_TEST_CASE(when_in_original_array_changing_item_copy_without_changes)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			auto copy1(arr);
+			auto copy2(arr);
+			arr[0] = 6;
+			BOOST_CHECK(!CheckEqualArrays(copy1, arr));
+			BOOST_CHECK(CheckEqualArrays(copy1, copy2));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_be_assigned_with_itself)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			auto copy(arr);
+			arr = arr;
+			BOOST_CHECK(CheckEqualArrays(copy, arr));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_be_assigned)
+		{
+			CMyArray<ArrayItem> oneEmptyArr, twoEmptyArr;
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			oneEmptyArr = arr;
+			BOOST_CHECK(CheckEqualArrays(oneEmptyArr, arr));
+			arr = twoEmptyArr;
+			BOOST_CHECK(CheckEqualArrays(arr, twoEmptyArr));
+		}
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_AUTO_TEST_SUITE(after_moving_construction)
+		BOOST_AUTO_TEST_CASE(has_size_capacity_equal_to_old_size_of_original_array)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			BOOST_CHECK_NE(arr.GetSize(), arr.GetCapacity());
+
+			size_t size = arr.GetSize();
+			size_t capacity = arr.GetCapacity();
+
+			auto newArr(move(arr));
+			BOOST_CHECK_EQUAL(newArr.GetSize(), size);
+			BOOST_CHECK_EQUAL(newArr.GetCapacity(), capacity);
+		}
+
+		BOOST_AUTO_TEST_CASE(original_array_is_empty)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+
+			auto newArr(move(arr));
+			BOOST_CHECK_EQUAL(arr.GetSize(), 0);
+			BOOST_CHECK_EQUAL(arr.GetCapacity(), 0);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 
