@@ -75,4 +75,280 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			BOOST_CHECK_EQUAL(copy.GetCapacity(), arr.GetSize());
 		}
 	BOOST_AUTO_TEST_SUITE_END()
+
+	struct CMyIterFixture : EmptyStringArray
+	{
+		CMyArray<int> intArray;
+		CMyArray<string> stringArray;
+		CMyIter<int> it, itEnd;
+		CMyIter<string> itStr;
+		CMyIterFixture()
+		{
+			stringArray.Append("hello");
+			stringArray.Append("world");
+			stringArray.Append("!");
+
+			for (auto i = 0; i < 6; ++i)
+			{
+				intArray.Append(i);
+			}
+			it = intArray.begin();
+			itEnd = intArray.end();
+			itStr = stringArray.begin();
+		}
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(iterator, CMyIterFixture)
+		BOOST_AUTO_TEST_CASE(can_return_designated_object)
+		{
+			BOOST_CHECK_EQUAL(*it, 0);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_pointer_to_class_object)
+		{
+			BOOST_CHECK_EQUAL(itStr->size(), 5);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_preincrement)
+		{
+			BOOST_CHECK_EQUAL(*(++it), 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_postincrement)
+		{
+			BOOST_CHECK_EQUAL(*(it++), 0);
+			BOOST_CHECK_EQUAL(*it, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_predecrement)
+		{
+			BOOST_CHECK_EQUAL(*(--itEnd), 5);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_postdecrement)
+		{
+			--itEnd;
+			BOOST_CHECK_EQUAL(*(itEnd--), 5);
+			BOOST_CHECK_EQUAL(*itEnd, 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_increment_by_integer)
+		{
+			it += 2;
+			BOOST_CHECK_EQUAL(*it, 2);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_this_plus_integer)
+		{
+			BOOST_CHECK_EQUAL(*(it + 2), 2);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_decrement_by_integer)
+		{
+			itEnd -= 2;
+			BOOST_CHECK_EQUAL(*itEnd, 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_this_minus_integer)
+		{
+			BOOST_CHECK_EQUAL(*(itEnd - 2), 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_difference_of_iterators)
+		{
+			BOOST_CHECK_EQUAL(itEnd - it, 6);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_subscript)
+		{
+			BOOST_CHECK_EQUAL(it[4], 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_for_iterator_equality)
+		{
+			BOOST_CHECK(it == intArray.begin());
+			BOOST_CHECK(!(it == intArray.end()));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_for_iterator_inequality)
+		{
+			BOOST_CHECK(it != intArray.end());
+			BOOST_CHECK(!(it != intArray.begin()));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_less_right)
+		{
+			BOOST_CHECK(itEnd > it);
+			BOOST_CHECK(!(it > it));
+			BOOST_CHECK(!(it > itEnd));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_greater_right)
+		{
+			BOOST_CHECK(it < itEnd);
+			BOOST_CHECK(!(it < it));
+			BOOST_CHECK(!(itEnd < it));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_less_equal_right)
+		{
+			BOOST_CHECK(it <= itEnd);
+			BOOST_CHECK(it <= it);
+			BOOST_CHECK(!(itEnd <= it));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_greater_equal_right)
+		{
+			BOOST_CHECK(itEnd >= it);
+			BOOST_CHECK(it >= it);
+			BOOST_CHECK(!(it >= itEnd));
+		}
+
+		BOOST_AUTO_TEST_CASE(compatible_with_stl)
+		{
+			int i = 0;
+			for (auto& arrElement : arr)
+			{
+				BOOST_CHECK_EQUAL(*it, i++);
+			}
+		}
+	BOOST_AUTO_TEST_SUITE_END()
+
+	struct ReverseCMyIterFixture : EmptyStringArray
+	{
+		CMyArray<int> intArray;
+		CMyArray<string> stringArray;
+		std::reverse_iterator<CMyIter<int>> it, itEnd;
+		std::reverse_iterator<CMyIter<string>> itStr;
+		ReverseCMyIterFixture()
+		{
+			stringArray.Append("hello");
+			stringArray.Append("world");
+			stringArray.Append("!");
+
+			for (auto i = 0; i < 6; ++i)
+			{
+				intArray.Append(i);
+			}
+			it = intArray.rbegin();
+			itEnd = intArray.rend();
+			itStr = stringArray.rbegin();
+		}
+	};
+
+	BOOST_FIXTURE_TEST_SUITE(reverse_iterator, ReverseCMyIterFixture)
+		BOOST_AUTO_TEST_CASE(can_return_designated_object)
+		{
+			BOOST_CHECK_EQUAL(*it, 5);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_pointer_to_class_object)
+		{
+			BOOST_CHECK_EQUAL(itStr->size(), 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_preincrement)
+		{
+			BOOST_CHECK_EQUAL(*(++it), 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_postincrement)
+		{
+			BOOST_CHECK_EQUAL(*(it++), 5);
+			BOOST_CHECK_EQUAL(*it, 4);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_predecrement)
+		{
+			BOOST_CHECK_EQUAL(*(--itEnd), 0);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_postdecrement)
+		{
+			--itEnd;
+			BOOST_CHECK_EQUAL(*(itEnd--), 0);
+			BOOST_CHECK_EQUAL(*itEnd, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_increment_by_integer)
+		{
+			it += 2;
+			BOOST_CHECK_EQUAL(*it, 3);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_this_plus_integer)
+		{
+			BOOST_CHECK_EQUAL(*(it + 2), 3);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_decrement_by_integer)
+		{
+			itEnd -= 2;
+			BOOST_CHECK_EQUAL(*itEnd, 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_this_minus_integer)
+		{
+			BOOST_CHECK_EQUAL(*(itEnd - 2), 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_return_difference_of_iterators)
+		{
+			BOOST_CHECK_EQUAL(itEnd - it, 6);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_subscript)
+		{
+			BOOST_CHECK_EQUAL(it[4], 1);
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_for_iterator_equality)
+		{
+			BOOST_CHECK(it == intArray.rbegin());
+			BOOST_CHECK(!(it == intArray.rend()));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_for_iterator_inequality)
+		{
+			BOOST_CHECK(it != intArray.rend());
+			BOOST_CHECK(!(it != intArray.rbegin()));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_less_right)
+		{
+			BOOST_CHECK(itEnd > it);
+			BOOST_CHECK(!(it > it));
+			BOOST_CHECK(!(it > itEnd));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_greater_right)
+		{
+			BOOST_CHECK(it < itEnd);
+			BOOST_CHECK(!(it < it));
+			BOOST_CHECK(!(itEnd < it));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_less_equal_right)
+		{
+			BOOST_CHECK(it <= itEnd);
+			BOOST_CHECK(it <= it);
+			BOOST_CHECK(!(itEnd <= it));
+		}
+
+		BOOST_AUTO_TEST_CASE(can_test_if_this_greater_equal_right)
+		{
+			BOOST_CHECK(itEnd >= it);
+			BOOST_CHECK(it >= it);
+			BOOST_CHECK(!(it >= itEnd));
+		}
+
+		BOOST_AUTO_TEST_CASE(compatible_with_stl)
+		{
+			stringstream stream;
+			std::for_each(stringArray.rbegin(), stringArray.rend(), [&](auto& str) {
+				stream << str;
+			});
+			BOOST_CHECK_EQUAL(stream.str(), "!worldhello");
+		}
+	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
