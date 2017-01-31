@@ -54,7 +54,7 @@ CHttpUrl::CHttpUrl(
 
 std::string CHttpUrl::GetUrl() const
 {
-	auto url = ProtocolToString() +"://" + m_domain;
+	auto url = ProtocolToString(m_protocol) +"://" + m_domain;
 	if (!((m_protocol == Protocol::HTTP && m_port == HTTP_DEFAULT_PORT)
 		|| (m_protocol == Protocol::HTTPS && m_port == HTTPS_DEFAULT_PORT)))
 	{
@@ -161,7 +161,7 @@ Protocol CHttpUrl::StringToProtocol(std::string const & protocol)
 	throw CUrlParsingError("Invalid protocol type");
 }
 
-std::string CHttpUrl::ProtocolToString() const
+std::string CHttpUrl::ProtocolToString(Protocol protocol) const
 {
-	return (m_protocol == Protocol::HTTP) ? "http" : "https";
+	return (protocol == Protocol::HTTP) ? "http" : "https";
 }
