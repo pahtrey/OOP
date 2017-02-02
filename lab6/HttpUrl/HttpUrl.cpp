@@ -113,7 +113,9 @@ unsigned CHttpUrl::ParsePortFromUrl(std::string const & url)
 	auto end = url.find("/");
 	auto portString = url.substr(1, end);
 
-	if (portString.empty() || (portString.find(' ') != std::string::npos))
+	if (portString.empty()
+		|| (portString.find(' ') != std::string::npos)
+		|| portString.find(":") != std::string::npos)
 	{
 		throw CUrlParsingError("Invalid URL port");
 	}
@@ -161,7 +163,7 @@ Protocol CHttpUrl::StringToProtocol(std::string const & protocol)
 	throw CUrlParsingError("Invalid protocol type");
 }
 
-std::string CHttpUrl::ProtocolToString(Protocol protocol) const
+std::string CHttpUrl::ProtocolToString(Protocol protocol)
 {
 	return (protocol == Protocol::HTTP) ? "http" : "https";
 }

@@ -35,13 +35,14 @@ public:
 	Protocol GetProtocol() const;
 	unsigned short GetPort() const;
 
-	std::string ProtocolToString(Protocol protocol) const;
+	std::string static ProtocolToString(Protocol protocol);
+private:
 	std::string static ParseProtocolFromUrl(std::string const & url);
 	std::string static ParseDomainFromUrl(std::string const & url);
 	unsigned static ParsePortFromUrl(std::string const & url);
 	std::string static ParseDocumentFromUrl(std::string const & url);
 	Protocol static StringToProtocol(std::string const & protocol);
-private:
+
 	std::string m_domain;
 	std::string m_document = "/";
 	Protocol m_protocol = Protocol::HTTP;
